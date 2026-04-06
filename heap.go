@@ -58,6 +58,17 @@ func (h *Heap[T, S]) Pop() (T, bool) {
 	return containerHeap.Pop(&h.internalHeap).(T), true
 }
 
+// Peek returns the highest-priority element without removing it.
+// Returns false if the heap is empty. Runs in O(1) time.
+func (h *Heap[T, S]) Peek() (T, bool) {
+	if len(h.internalHeap.values) == 0 {
+		var zero T
+		return zero, false
+	}
+
+	return h.internalHeap.values[0], true
+}
+
 // Length returns the number of elements in the heap. Runs in O(1) time.
 func (h *Heap[T, S]) Length() int {
 	return len(h.internalHeap.values)

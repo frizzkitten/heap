@@ -66,6 +66,7 @@ value, ok := h.Pop() // 2, true
 | `NewMax(startingValues, getPriority)` | Create a max-heap | O(n) |
 | `Push(value)` | Add an element | O(log n) |
 | `Pop()` | Remove and return the highest-priority element | O(log n) |
+| `Peek()` | Return the highest-priority element without removing it | O(1) |
 | `Length()` | Return the number of elements | O(1) |
 
 ## Note

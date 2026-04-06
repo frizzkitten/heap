@@ -245,6 +245,31 @@ func TestHeap(t *testing.T) {
 		assert.Equal(t, h.Length(), 0)
 	})
 
+	t.Run("peek", func(t *testing.T) {
+		h := NewMin([]int{3, 1, 2}, func(value int) int { return value })
+
+		value, found := h.Peek()
+		assert.True(t, found)
+		assert.Equal(t, value, 1)
+		assert.Equal(t, h.Length(), 3)
+
+		value, found = h.Peek()
+		assert.True(t, found)
+		assert.Equal(t, value, 1)
+		assert.Equal(t, h.Length(), 3)
+
+		h.Pop()
+		value, found = h.Peek()
+		assert.True(t, found)
+		assert.Equal(t, value, 2)
+
+		h.Pop()
+		h.Pop()
+		value, found = h.Peek()
+		assert.False(t, found)
+		assert.Equal(t, value, 0)
+	})
+
 	t.Run("push only then pop all", func(t *testing.T) {
 		h := NewMax(nil, func(value int) int { return value })
 
