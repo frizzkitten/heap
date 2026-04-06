@@ -5,28 +5,23 @@ import (
 	containerHeap "container/heap"
 )
 
-const (
-	min = iota
-	max
-)
-
 type Heap[T any, S cmp.Ordered] struct {
 	internalHeap hp[T, S]
 }
 
 func NewMin[T any, S cmp.Ordered](startingValues []T, getPriority func(T) S) Heap[T, S] {
-	return newHeap(startingValues, getPriority, min)
+	return newHeap(startingValues, getPriority, func(a, b S) bool { return a < b })
 }
 
 func NewMax[T any, S cmp.Ordered](startingValues []T, getPriority func(T) S) Heap[T, S] {
-	return newHeap(startingValues, getPriority, max)
+	return newHeap(startingValues, getPriority, func(a, b S) bool { return a > b })
 }
 
-func newHeap[T any, S cmp.Ordered](startingValues []T, getPriority func(T) S, heapType int) Heap[T, S] {
+func newHeap[T any, S cmp.Ordered](startingValues []T, getPriority func(T) S, less func(S, S) bool) Heap[T, S] {
 	internalHeap := hp[T, S]{
 		getPriority: getPriority,
+		less:        less,
 		values:      startingValues,
-		heapType:    heapType,
 	}
 
 	containerHeap.Init(&internalHeap)
