@@ -37,8 +37,8 @@ func (h *Heap[T, S]) Push(value T) {
 
 func (h *Heap[T, S]) Pop() (T, bool) {
 	if len(h.internalHeap.values) == 0 {
-		var empty T
-		return empty, false
+		var zero T
+		return zero, false
 	}
 
 	return containerHeap.Pop(&h.internalHeap).(T), true

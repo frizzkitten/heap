@@ -23,7 +23,14 @@ func (h *hp[T, S]) Push(x any) {
 }
 
 func (h *hp[T, S]) Pop() any {
-	value := h.values[len(h.values)-1]
-	h.values = h.values[0 : len(h.values)-1]
+	finalIndex := len(h.values) - 1
+	value := h.values[finalIndex]
+
+	// zero out the value in case it's a pointer,
+	// otherwise it would be a memory leak
+	var zero T
+	h.values[finalIndex] = zero
+
+	h.values = h.values[:finalIndex]
 	return value
 }
