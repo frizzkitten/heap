@@ -71,3 +71,7 @@ value, ok := h.Pop() // 2, true
 ## Note
 
 `startingValues` is reordered in place during heap construction. If you need to preserve the original order, pass a copy.
+
+## License
+
+[MIT](LICENSE)

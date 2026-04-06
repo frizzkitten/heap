@@ -1,3 +1,6 @@
+// Package heap provides a generic, type-safe priority queue backed by
+// container/heap. It supports both min-heaps and max-heaps with a
+// user-defined priority function.
 package heap
 
 import (
