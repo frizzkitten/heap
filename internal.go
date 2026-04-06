@@ -5,12 +5,19 @@ import "cmp"
 type hp[T any, S cmp.Ordered] struct {
 	getPriority func(T) S
 	values      []T
+	heapType    int
 }
 
 func (h hp[T, S]) Len() int { return len(h.values) }
 
 func (h hp[T, S]) Less(i, j int) bool {
-	return h.getPriority(h.values[i]) < h.getPriority(h.values[j])
+	priorityI := h.getPriority(h.values[i])
+	priorityJ := h.getPriority(h.values[j])
+
+	if h.heapType == min {
+		return priorityI < priorityJ
+	}
+	return priorityI > priorityJ
 }
 
 func (h hp[T, S]) Swap(i, j int) {
