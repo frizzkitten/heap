@@ -178,4 +178,104 @@ func TestHeap(t *testing.T) {
 		assert.False(t, found)
 		assert.Equal(t, value, task{})
 	})
+
+	t.Run("nil starting values", func(t *testing.T) {
+		h := NewMin(nil, func(value int) int { return value })
+		assert.Equal(t, h.Length(), 0)
+
+		value, found := h.Pop()
+		assert.False(t, found)
+		assert.Equal(t, value, 0)
+
+		h.Push(3)
+		h.Push(1)
+		h.Push(2)
+		assert.Equal(t, h.Length(), 3)
+
+		value, found = h.Pop()
+		assert.True(t, found)
+		assert.Equal(t, value, 1)
+	})
+
+	t.Run("empty starting values", func(t *testing.T) {
+		h := NewMax([]int{}, func(value int) int { return value })
+		assert.Equal(t, h.Length(), 0)
+
+		value, found := h.Pop()
+		assert.False(t, found)
+		assert.Equal(t, value, 0)
+
+		h.Push(3)
+		h.Push(1)
+		h.Push(2)
+
+		value, found = h.Pop()
+		assert.True(t, found)
+		assert.Equal(t, value, 3)
+	})
+
+	t.Run("single element", func(t *testing.T) {
+		h := NewMin([]int{42}, func(value int) int { return value })
+		assert.Equal(t, h.Length(), 1)
+
+		value, found := h.Pop()
+		assert.True(t, found)
+		assert.Equal(t, value, 42)
+
+		value, found = h.Pop()
+		assert.False(t, found)
+		assert.Equal(t, value, 0)
+	})
+
+	t.Run("length", func(t *testing.T) {
+		h := NewMin([]int{3, 1, 2}, func(value int) int { return value })
+		assert.Equal(t, h.Length(), 3)
+
+		h.Pop()
+		assert.Equal(t, h.Length(), 2)
+
+		h.Push(5)
+		h.Push(6)
+		assert.Equal(t, h.Length(), 4)
+
+		h.Pop()
+		h.Pop()
+		h.Pop()
+		h.Pop()
+		assert.Equal(t, h.Length(), 0)
+	})
+
+	t.Run("push only then pop all", func(t *testing.T) {
+		h := NewMax(nil, func(value int) int { return value })
+
+		h.Push(5)
+		h.Push(3)
+		h.Push(8)
+		h.Push(1)
+		h.Push(9)
+
+		value, found := h.Pop()
+		assert.True(t, found)
+		assert.Equal(t, value, 9)
+
+		value, found = h.Pop()
+		assert.True(t, found)
+		assert.Equal(t, value, 8)
+
+		value, found = h.Pop()
+		assert.True(t, found)
+		assert.Equal(t, value, 5)
+
+		value, found = h.Pop()
+		assert.True(t, found)
+		assert.Equal(t, value, 3)
+
+		value, found = h.Pop()
+		assert.True(t, found)
+		assert.Equal(t, value, 1)
+
+		value, found = h.Pop()
+		assert.False(t, found)
+		assert.Equal(t, value, 0)
+	})
 }
