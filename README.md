@@ -31,11 +31,15 @@ type Job struct {
     Priority int
 }
 
-h := heap.NewMax([]Job{
+jobs := []Job{
     {Name: "low", Priority: 1},
     {Name: "high", Priority: 10},
     {Name: "medium", Priority: 5},
-}, func(j Job) int { return j.Priority })
+}
+
+getPriority := func(j Job) int { return j.Priority }
+
+h := heap.NewMax(jobs, getPriority)
 
 value, ok := h.Pop() // {high 10}, true
 value, ok = h.Pop()  // {medium 5}, true
